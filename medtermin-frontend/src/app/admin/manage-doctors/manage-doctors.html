@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Upravljanje lekarima</h2>
+    <a routerLink="/admin/doctors/add" class="btn btn-primary">+ Dodaj lekara</a>
+  </div>
+
+  @if (isLoading) {
+    <p>Učitavanje...</p>
+  } @else if (errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  } @else {
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Ime i prezime</th>
+          <th>Email</th>
+          <th>Specijalizacija</th>
+          <th>Ordinacija</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (doctor of doctors; track doctor.id) {
+          <tr>
+            <td>Dr {{ doctor.first_name }} {{ doctor.last_name }}</td>
+            <td>{{ doctor.email }}</td>
+            <td>{{ doctor.specialization_name }}</td>
+            <td>{{ doctor.office_name || '-' }}</td>
+            <td>
+              <a [routerLink]="['/admin/doctors/edit', doctor.id]" class="btn btn-sm btn-outline-primary me-2">
+                Izmeni
+              </a>
+              <button
+                class="btn btn-sm btn-outline-danger"
+                [disabled]="deletingId === doctor.id"
+                (click)="deleteDoctor(doctor.id)"
+              >
+                @if (deletingId === doctor.id) {
+                  Brisanje...
+                } @else {
+                  Obriši
+                }
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  }
+</div>

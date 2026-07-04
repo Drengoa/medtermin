@@ -1,0 +1,147 @@
+<div class="container mt-4">
+  <h2 class="mb-4">
+    @if (isEditMode) {
+      Izmeni lekara
+    } @else {
+      Dodaj novog lekara
+    }
+  </h2>
+
+  <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()">
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title mb-3">
+          @if (isEditMode) {
+            Osnovni podaci (izmena)
+          } @else {
+            Osnovni podaci
+          }
+        </h5>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Ime</label>
+            <input type="text" class="form-control" formControlName="first_name">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Prezime</label>
+            <input type="text" class="form-control" formControlName="last_name">
+          </div>
+        </div>
+
+        @if (!isEditMode) {
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" formControlName="email">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Lozinka</label>
+            <input type="password" class="form-control" formControlName="password">
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Telefon</label>
+          <input type="text" class="form-control" formControlName="phone">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Specijalizacija</label>
+          <select class="form-select" formControlName="specialization_id">
+            <option value="" disabled>Izaberi specijalizaciju</option>
+            @for (spec of specializations; track spec.id) {
+              <option [value]="spec.id">{{ spec.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Ordinacija (opciono)</label>
+          <select class="form-select" formControlName="office_id">
+            <option value="">Bez ordinacije</option>
+            @for (office of offices; track office.id) {
+              <option [value]="office.id">{{ office.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Biografija</label>
+          <textarea class="form-control" rows="3" formControlName="bio"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Raspored dostupnosti</h5>
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="addAvailabilitySlot()">
+            + Dodaj dan
+          </button>
+        </div>
+
+        <div formArrayName="availability">
+          @for (slot of availability.controls; track $index) {
+            <div [formGroupName]="$index" class="row align-items-end mb-3 border-bottom pb-3">
+
+              <div class="col-md-3">
+                <label class="form-label">Dan</label>
+                <select class="form-select" formControlName="day_of_week">
+                  <option value="" disabled>Izaberi dan</option>
+                  @for (day of daysOfWeek; track day.value) {
+                    <option [value]="day.value">{{ day.label }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Od</label>
+                <input type="time" class="form-control" formControlName="start_time">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Do</label>
+                <input type="time" class="form-control" formControlName="end_time">
+              </div>
+
+              <div class="col-md-2">
+                <label class="form-label">Trajanje (min)</label>
+                <input type="number" class="form-control" formControlName="slot_duration">
+              </div>
+
+              <div class="col-md-1">
+                @if (availability.length > 1) {
+                  <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeAvailabilitySlot($index)">
+                    ✕
+                  </button>
+                }
+              </div>
+
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+
+    <button type="submit" class="btn btn-primary" [disabled]="doctorForm.invalid || isSubmitting">
+      @if (isSubmitting) {
+        Čuvanje...
+      } @else if (isEditMode) {
+        Sačuvaj izmene
+      } @else {
+        Dodaj lekara
+      }
+    </button>
+
+  </form>
+</div>

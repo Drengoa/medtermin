@@ -1,0 +1,84 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h3 class="card-title text-center mb-4">Prijava</h3>
+
+          <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                [(ngModel)]="email"
+                #emailField="ngModel"
+                required
+                email
+              >
+              @if (emailField.invalid && emailField.touched) {
+                <div class="text-danger small mt-1">
+                  @if (emailField.errors?.['required']) {
+                    Email je obavezan.
+                  }
+                  @if (emailField.errors?.['email']) {
+                    Unesite validnu email adresu.
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Lozinka</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                [(ngModel)]="password"
+                #passwordField="ngModel"
+                required
+                minlength="6"
+              >
+              @if (passwordField.invalid && passwordField.touched) {
+                <div class="text-danger small mt-1">
+                  @if (passwordField.errors?.['required']) {
+                    Lozinka je obavezna.
+                  }
+                  @if (passwordField.errors?.['minlength']) {
+                    Lozinka mora imati bar 6 karaktera.
+                  }
+                </div>
+              }
+            </div>
+
+            @if (errorMessage) {
+              <div class="alert alert-danger py-2">{{ errorMessage }}</div>
+            }
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="loginForm.invalid || isLoading"
+            >
+              @if (isLoading) {
+                Prijavljivanje...
+              } @else {
+                Prijavi se
+              }
+            </button>
+
+          </form>
+
+          <p class="text-center mt-3 mb-0">
+            Nemaš nalog? <a routerLink="/register">Registruj se</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h3 class="card-title text-center mb-4">Registracija</h3>
+
+          <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="first_name" class="form-label">Ime</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="first_name"
+                  name="first_name"
+                  [(ngModel)]="first_name"
+                  #firstNameField="ngModel"
+                  required
+                >
+                @if (firstNameField.invalid && firstNameField.touched) {
+                  <div class="text-danger small mt-1">Ime je obavezno.</div>
+                }
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="last_name" class="form-label">Prezime</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="last_name"
+                  name="last_name"
+                  [(ngModel)]="last_name"
+                  #lastNameField="ngModel"
+                  required
+                >
+                @if (lastNameField.invalid && lastNameField.touched) {
+                  <div class="text-danger small mt-1">Prezime je obavezno.</div>
+                }
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                [(ngModel)]="email"
+                #emailField="ngModel"
+                required
+                email
+              >
+              @if (emailField.invalid && emailField.touched) {
+                <div class="text-danger small mt-1">
+                  @if (emailField.errors?.['required']) {
+                    Email je obavezan.
+                  }
+                  @if (emailField.errors?.['email']) {
+                    Unesite validnu email adresu.
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label">Telefon</label>
+              <input
+                type="text"
+                class="form-control"
+                id="phone"
+                name="phone"
+                [(ngModel)]="phone"
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Lozinka</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                [(ngModel)]="password"
+                #passwordField="ngModel"
+                required
+                minlength="6"
+              >
+              @if (passwordField.invalid && passwordField.touched) {
+                <div class="text-danger small mt-1">
+                  @if (passwordField.errors?.['required']) {
+                    Lozinka je obavezna.
+                  }
+                  @if (passwordField.errors?.['minlength']) {
+                    Lozinka mora imati bar 6 karaktera.
+                  }
+                </div>
+              }
+            </div>
+
+            @if (errorMessage) {
+              <div class="alert alert-danger py-2">{{ errorMessage }}</div>
+            }
+            @if (successMessage) {
+              <div class="alert alert-success py-2">{{ successMessage }}</div>
+            }
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="registerForm.invalid || isLoading"
+            >
+              @if (isLoading) {
+                Registracija u toku...
+              } @else {
+                Registruj se
+              }
+            </button>
+
+          </form>
+
+          <p class="text-center mt-3 mb-0">
+            Već imaš nalog? <a routerLink="/login">Prijavi se</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Naši lekari</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label for="specializationFilter" class="form-label">Filtriraj po specijalizaciji</label>
+      <select
+        id="specializationFilter"
+        class="form-select"
+        [(ngModel)]="selectedSpecializationId"
+        (ngModelChange)="onSpecializationChange()"
+      >
+        <option [ngValue]="null">Sve specijalizacije</option>
+        @for (spec of specializations; track spec.id) {
+          <option [ngValue]="spec.id">{{ spec.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <p>Učitavanje lekara...</p>
+  } @else if (errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  } @else if (doctors.length === 0) {
+    <p>Nema lekara za izabranu specijalizaciju.</p>
+  } @else {
+    <div class="row g-4">
+      @for (doctor of doctors; track doctor.id) {
+        <div class="col-md-4">
+          <app-doctor-card
+            [doctor]="doctor"
+            (viewDetails)="viewDoctor($event)"
+          ></app-doctor-card>
+        </div>
+      }
+    </div>
+  }
+</div>

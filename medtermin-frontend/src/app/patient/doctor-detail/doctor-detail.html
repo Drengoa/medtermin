@@ -1,0 +1,119 @@
+<div class="container mt-4">
+
+  @if (doctor) {
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h3>Dr {{ doctor.first_name }} {{ doctor.last_name }}</h3>
+        <h6 class="text-muted mb-3">{{ doctor.specialization_name }}</h6>
+
+        @if (doctor.bio) {
+          <p>{{ doctor.bio }}</p>
+        }
+
+        @if (doctor.office_name) {
+          <p class="text-muted mb-0">
+            📍 {{ doctor.office_name }}
+            @if (doctor.office_address) {
+              — {{ doctor.office_address }}
+            }
+          </p>
+        }
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Zakaži termin</h4>
+
+        <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+
+          <div class="mb-3">
+            <label for="appointment_date" class="form-label">Datum</label>
+            <input
+              type="date"
+              class="form-control"
+              id="appointment_date"
+              formControlName="appointment_date"
+              [min]="minDate"
+            >
+            @if (f['appointment_date'].invalid && f['appointment_date'].touched) {
+              <div class="text-danger small mt-1">Datum je obavezan.</div>
+            }
+          </div>
+
+          @if (isLoadingSlots) {
+            <p class="text-muted">Učitavanje slobodnih termina...</p>
+          }
+
+          @if (slotsErrorMessage) {
+            <div class="alert alert-warning py-2">{{ slotsErrorMessage }}</div>
+          }
+
+          @if (availableSlots.length > 0) {
+            <div class="mb-3">
+              <label class="form-label">Slobodni termini</label>
+              <div class="d-flex flex-wrap gap-2">
+                @for (slot of availableSlots; track slot) {
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    [class.btn-primary]="f['appointment_time'].value === slot"
+                    [class.btn-outline-primary]="f['appointment_time'].value !== slot"
+                    (click)="bookingForm.get('appointment_time')?.setValue(slot)"
+                  >
+                    {{ slot.slice(0, 5) }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <div class="mb-3">
+            <label for="reason" class="form-label">Razlog dolaska</label>
+            <textarea
+              class="form-control"
+              id="reason"
+              rows="3"
+              formControlName="reason"
+            ></textarea>
+            @if (f['reason'].invalid && f['reason'].touched) {
+              <div class="text-danger small mt-1">
+                @if (f['reason'].errors?.['required']) {
+                  Razlog dolaska je obavezan.
+                }
+                @if (f['reason'].errors?.['minlength']) {
+                  Razlog mora imati bar 5 karaktera.
+                }
+              </div>
+            }
+          </div>
+
+          @if (submitError) {
+            <div class="alert alert-danger py-2">{{ submitError }}</div>
+          }
+          @if (submitSuccess) {
+            <div class="alert alert-success py-2">{{ submitSuccess }}</div>
+          }
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="bookingForm.invalid || isSubmitting"
+          >
+            @if (isSubmitting) {
+              Zakazivanje...
+            } @else {
+              Zakaži termin
+            }
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+  } @else {
+    <p>Učitavanje...</p>
+  }
+
+</div>

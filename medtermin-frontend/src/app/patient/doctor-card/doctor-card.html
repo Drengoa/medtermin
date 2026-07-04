@@ -1,0 +1,23 @@
+<div class="card h-100 shadow-sm">
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title">Dr {{ doctor.first_name }} {{ doctor.last_name }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ doctor.specialization_name }}</h6>
+
+    @if (doctor.bio) {
+      <p class="card-text small">{{ doctor.bio }}</p>
+    }
+
+    @if (doctor.office_name) {
+      <p class="card-text small text-muted mb-3">
+        📍 {{ doctor.office_name }}
+        @if (doctor.office_address) {
+          — {{ doctor.office_address }}
+        }
+      </p>
+    }
+
+    <button class="btn btn-outline-primary mt-auto" (click)="onViewDetails()">
+      Vidi detalje i zakaži
+    </button>
+  </div>
+</div>

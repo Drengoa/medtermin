@@ -1,0 +1,30 @@
+@if (shouldShowNavbar) {
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+      <a class="navbar-brand" style="cursor: pointer;" (click)="goHome()">MedTermin</a>
+
+      <div class="navbar-nav me-auto">
+        @switch (currentUser?.role) {
+          @case ('patient') {
+            <a class="nav-link" routerLink="/patient/doctors" routerLinkActive="active">Lekari</a>
+            <a class="nav-link" routerLink="/patient/appointments" routerLinkActive="active">Moji termini</a>
+          }
+          @case ('doctor') {
+            <a class="nav-link" routerLink="/doctor/appointments" routerLinkActive="active">Moji termini</a>
+          }
+          @case ('admin') {
+            <a class="nav-link" routerLink="/admin/doctors" routerLinkActive="active">Lekari</a>
+            <a class="nav-link" routerLink="/admin/specializations" routerLinkActive="active">Specijalizacije</a>
+          }
+        }
+      </div>
+
+      <div class="d-flex align-items-center">
+        <span class="text-white me-3">
+          {{ currentUser?.first_name }} {{ currentUser?.last_name }}
+        </span>
+        <button class="btn btn-outline-light btn-sm" (click)="logout()">Odjavi se</button>
+      </div>
+    </div>
+  </nav>
+}
