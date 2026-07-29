@@ -15,7 +15,6 @@ export class DoctorAppointments implements OnInit {
 
   processingId: number | null = null;
 
-  // Za formu unosa napomene prilikom završavanja pregleda
   notesInput: { [key: number]: string } = {};
 
   constructor(private appointmentService: AppointmentService) { }

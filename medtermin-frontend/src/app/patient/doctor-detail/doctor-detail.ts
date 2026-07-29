@@ -39,7 +39,6 @@ export class DoctorDetail implements OnInit {
       reason: ['', [Validators.required, Validators.minLength(5)]]
     });
 
-    // Minimalni datum koji korisnik sme da izabere je danas
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
   }
@@ -48,7 +47,6 @@ export class DoctorDetail implements OnInit {
     this.doctorId = Number(this.route.snapshot.paramMap.get('id'));
     this.loadDoctor();
 
-    // Kad god se datum promeni, ponovo učitavamo dostupne termine
     this.bookingForm.get('appointment_date')?.valueChanges.subscribe(date => {
       if (date) {
         this.loadAvailability(date);

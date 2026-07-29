@@ -20,11 +20,11 @@
                     {{ appointment.patient_first_name }} {{ appointment.patient_last_name }}
                   </h5>
                   @if (appointment.patient_phone) {
-                    <p class="text-muted mb-1">📞 {{ appointment.patient_phone }}</p>
+                    <p class="text-muted mb-1"> {{ appointment.patient_phone }}</p>
                   }
 
                   <p class="mb-1">
-                    📅 {{ appointment.appointment_date | date:'dd.MM.yyyy' }}
+                     {{ appointment.appointment_date | date:'dd.MM.yyyy' }}
                     u {{ appointment.appointment_time.slice(0, 5) }}
                   </p>
 

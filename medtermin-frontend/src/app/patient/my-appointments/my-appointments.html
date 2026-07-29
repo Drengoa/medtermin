@@ -22,7 +22,7 @@
                   <h6 class="text-muted mb-2">{{ appointment.specialization_name }}</h6>
 
                   <p class="mb-1">
-                    📅 {{ appointment.appointment_date | date:'dd.MM.yyyy' }}
+                    {{ appointment.appointment_date | date:'dd.MM.yyyy' }}
                     u {{ appointment.appointment_time.slice(0, 5) }}
                   </p>
 

@@ -39,7 +39,7 @@ export class MyAppointments implements OnInit {
     this.appointmentService.cancelAppointment(id).subscribe({
       next: () => {
         this.cancellingId = null;
-        this.loadAppointments(); // ponovo učitavamo listu da prikažemo novi status
+        this.loadAppointments();
       },
       error: (err) => {
         this.cancellingId = null;

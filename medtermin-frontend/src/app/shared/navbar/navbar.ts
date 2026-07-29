@@ -18,7 +18,6 @@ export class Navbar implements OnInit {
   }
 
   ngOnInit(): void {
-    // Pratimo promenu rute da znamo da li smo na login/register stranici
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event) => {

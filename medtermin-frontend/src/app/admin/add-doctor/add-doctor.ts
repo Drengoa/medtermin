@@ -66,11 +66,9 @@ export class AddDoctor implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
 
     if (idParam) {
-      // EDIT REŽIM
       this.isEditMode = true;
       this.doctorId = Number(idParam);
 
-      // U edit režimu, email i lozinka se ne menjaju ovde - uklanjamo validaciju
       this.doctorForm.get('email')?.clearValidators();
       this.doctorForm.get('password')?.clearValidators();
       this.doctorForm.get('email')?.updateValueAndValidity();
@@ -78,7 +76,6 @@ export class AddDoctor implements OnInit {
 
       this.loadDoctorData();
     } else {
-      // ADD REŽIM - dodajemo jedan prazan red rasporeda na startu
       this.addAvailabilitySlot();
     }
   }
@@ -103,7 +100,6 @@ export class AddDoctor implements OnInit {
       }
     });
 
-    // Učitavamo postojeći raspored dostupnosti lekara
     this.adminService.getDoctorAvailability(this.doctorId).subscribe({
       next: (slots) => {
         if (slots.length > 0) {
@@ -117,7 +113,6 @@ export class AddDoctor implements OnInit {
             this.availability.push(slotGroup);
           });
         } else {
-          // Ako lekar nema još raspored, dodajemo jedan prazan red
           this.addAvailabilitySlot();
         }
       },
@@ -157,7 +152,6 @@ export class AddDoctor implements OnInit {
     const formValue = this.doctorForm.value;
 
     if (this.isEditMode && this.doctorId) {
-      // IZMENA postojećeg lekara
       const updateData = {
         specialization_id: formValue.specialization_id,
         office_id: formValue.office_id || null,
@@ -188,7 +182,6 @@ export class AddDoctor implements OnInit {
       });
 
     } else {
-      // DODAVANJE novog lekara
       const doctorData = {
         first_name: formValue.first_name,
         last_name: formValue.last_name,

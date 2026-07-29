@@ -23,7 +23,6 @@ export class Login {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         this.isLoading = false;
-        // Preusmeravanje na osnovu uloge korisnika
         if (response.user.role === 'admin') {
           this.router.navigate(['/admin']);
         } else if (response.user.role === 'doctor') {
